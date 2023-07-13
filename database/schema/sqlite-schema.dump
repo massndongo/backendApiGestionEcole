@@ -1,0 +1,17 @@
+CREATE TABLE IF NOT EXISTS "migrations" ("id" integer not null primary key autoincrement, "migration" varchar not null, "batch" integer not null);
+CREATE TABLE IF NOT EXISTS "users" ("id" integer not null primary key autoincrement, "firstname" varchar not null, "lastname" varchar not null, "profil_id" integer not null, "email" varchar not null, "phone" varchar not null, "email_verified_at" datetime, "password" varchar not null, "status" tinyint(1), "image" varchar, "remember_token" varchar, "created_at" datetime, "updated_at" datetime, foreign key("profil_id") references "profils"("id") on delete cascade);
+CREATE UNIQUE INDEX "users_email_unique" on "users" ("email");
+CREATE UNIQUE INDEX "users_phone_unique" on "users" ("phone");
+CREATE TABLE IF NOT EXISTS "password_resets" ("email" varchar not null, "token" varchar not null, "created_at" datetime);
+CREATE INDEX "password_resets_email_index" on "password_resets" ("email");
+CREATE TABLE IF NOT EXISTS "failed_jobs" ("id" integer not null primary key autoincrement, "uuid" varchar not null, "connection" text not null, "queue" text not null, "payload" text not null, "exception" text not null, "failed_at" datetime default CURRENT_TIMESTAMP not null);
+CREATE UNIQUE INDEX "failed_jobs_uuid_unique" on "failed_jobs" ("uuid");
+CREATE TABLE IF NOT EXISTS "personal_access_tokens" ("id" integer not null primary key autoincrement, "tokenable_type" varchar not null, "tokenable_id" integer not null, "name" varchar not null, "token" varchar not null, "abilities" text, "last_used_at" datetime, "created_at" datetime, "updated_at" datetime);
+CREATE INDEX "personal_access_tokens_tokenable_type_tokenable_id_index" on "personal_access_tokens" ("tokenable_type", "tokenable_id");
+CREATE UNIQUE INDEX "personal_access_tokens_token_unique" on "personal_access_tokens" ("token");
+CREATE TABLE IF NOT EXISTS "profils" ("id" integer not null primary key autoincrement, "libelle" varchar not null, "is_deleted" tinyint(1), "created_at" datetime, "updated_at" datetime);
+INSERT INTO migrations VALUES(6,'2014_10_12_000000_create_users_table',1);
+INSERT INTO migrations VALUES(7,'2014_10_12_100000_create_password_resets_table',1);
+INSERT INTO migrations VALUES(8,'2019_08_19_000000_create_failed_jobs_table',1);
+INSERT INTO migrations VALUES(9,'2019_12_14_000001_create_personal_access_tokens_table',1);
+INSERT INTO migrations VALUES(10,'2023_07_12_221724_create_profils_table',1);
